@@ -1,21 +1,11 @@
-import { deleteContact } from 'redux/contactsSlice';
 import { ContactsListStyled } from './ContactsListStyled';
 import { useDispatch, useSelector } from 'react-redux';
-import { getContacts, getFilter } from 'redux/selectors';
-
-const getVisibleContacts = (contacts, valueFilter) => {
-  if (valueFilter !== null || valueFilter !== '') {
-    return contacts.filter(({ name }) =>
-      name.toLowerCase().includes(valueFilter.toLowerCase().trim())
-    );
-  }
-};
+import { deleteContact } from 'redux/operations';
+import { selectVisibleContacts } from 'redux/selectors';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
-  const valueFilter = useSelector(getFilter);
-  const visibleContacts = getVisibleContacts(contacts, valueFilter);
+  const visibleContacts = useSelector(selectVisibleContacts);
 
   const removeContact = contactId => {
     dispatch(deleteContact(contactId));

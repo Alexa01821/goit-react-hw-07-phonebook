@@ -1,22 +1,24 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { FormSection } from './FormRegistrationStyled';
-import { getContacts } from 'redux/selectors';
+import { selectContacts } from 'redux/selectors';
 import { Notify } from 'notiflix';
-import { addContact } from 'redux/contactsSlice';
+import { addContact } from 'redux/operations';
 
 export const FormRegistration = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(getContacts);
+  const contacts = useSelector(selectContacts);
 
   const handleSubmit = event => {
     event.preventDefault();
     const form = event.target;
-    const name = event.target.name.value;
-    const number = event.target.number.value;
+    const name = form.name.value;
+    const number = form.number.value;
     const isTrue = contacts.some(contact => contact.name === name);
-    isTrue
-      ? Notify.failure(`${name} is already in contacts`)
-      : dispatch(addContact({ name, number }));
+    if (isTrue) {
+      Notify.failure(`${name} is already in contacts`);
+      return;
+    }
+    dispatch(addContact({ name, number }));
     form.reset();
   };
 
