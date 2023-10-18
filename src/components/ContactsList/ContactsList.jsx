@@ -1,11 +1,17 @@
+import { useEffect } from 'react';
 import { ContactsListStyled } from './ContactsListStyled';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteContact } from 'redux/operations';
+import { deleteContact, fetchContacts } from 'redux/operations';
 import { selectVisibleContacts } from 'redux/selectors';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
   const visibleContacts = useSelector(selectVisibleContacts);
+
+  useEffect(() => {
+    dispatch(fetchContacts());
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const removeContact = contactId => {
     dispatch(deleteContact(contactId));
