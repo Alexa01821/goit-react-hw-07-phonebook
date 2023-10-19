@@ -2,13 +2,8 @@ import { Container } from './AppStyled';
 import { FormRegistration } from './FormRegistration/FormRegistration';
 import { ContactsList } from './ContactsList/ContactsList';
 import { Filter } from './Filter/Filter';
-import { Notify } from 'notiflix';
-import { useSelector } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
 
 export const App = () => {
-  const contacts = useSelector(selectContacts);
-
   return (
     <Container>
       <h1 className="title">Phonebook</h1>
@@ -17,11 +12,7 @@ export const App = () => {
       </section>
       <section className="contacts">
         <h2 className="contacts-title">Contacts</h2>
-        {contacts && contacts.length > 0 ? (
-          <Filter />
-        ) : (
-          Notify.failure('Your phonebook is empty. Add first contact!')
-        )}
+        <Filter />
         <ContactsList />
       </section>
     </Container>
